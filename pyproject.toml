@@ -1,0 +1,34 @@
+
+[tool.poetry]
+name = "diploma-project"
+version = "0.1.0"
+description = ""
+authors = ["asya474 <asya474@gmail.com>"]
+readme = "README.md"
+packages = [{include = "diploma-project"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytest = "^8.0.0"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"
+selene = "2.0.0rc7"
+selenium="^4.17.2"
+allure-pytest = "^2.13.2"
+jsonschema = "^4.18.4"
+appium-python-client = "3.1.1"
+pydantic = "^2.1.1"
+pydantic-settings = "^2.0.2"
+curlify = "^2.2.1"
+urllib3 = "^2.1.0"
+webdriver-manager = "^4.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = "--alluredir=allure-results -s --clean-alluredir"
