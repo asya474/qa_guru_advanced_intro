@@ -1,8 +1,10 @@
 from pydantic import BaseModel
-
+import dataclasses
+@dataclasses.dataclass
 class SupportData(BaseModel):
     url: str
 
+@dataclasses.dataclass
 class UserData(BaseModel):
     id: int
     email: str
@@ -10,6 +12,7 @@ class UserData(BaseModel):
     last_name: str
     avatar: str
     text: str
+@dataclasses.dataclass
 class UserResponse(BaseModel):
     data: UserData
     support: SupportData
