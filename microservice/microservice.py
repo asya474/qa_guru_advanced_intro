@@ -28,23 +28,25 @@ def get_single_user(user_id: int):
 
 @app.post("/api/users", response_model=UserResponse, status_code=201)
 def post_create_user(user: User):
-    user=User(name=user.name, job=user.job)
+    user_id = str(random.randint(100, 999))
+    user=User(name="User"+user_id, job="Job"+user_id)
     return UserResponse(
         name=user.name,
         job=user.job,
-        id=str(random.randint(100, 999)),
+        id=user_id,
         createdAt=datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
     )
 
 
 @app.put("/api/users/{user_id}", response_model=UserUpdateResponse, status_code=200)
 def put_update_user(user_id: int, user_update: UserUpdateRequest):
-    user_update = UserUpdateRequest(name=user_update.name, job=user_update.job)
+    user_id = str(random.randint(100, 999))
+    user_update = UserUpdateRequest(name="User"+user_id, job="Job"+user_id)
     updated_at = datetime.datetime.now(datetime.UTC).isoformat() + "Z"
     return UserUpdateResponse(
-        name=f"User{user_id}",
-        job="Job{user_id}",
-        updatedAt=updated_at
+        name=user_update.name,
+        job=user_update.job,
+        updatedAt=updated_at)
 
 
 if __name__ == "__main__":
