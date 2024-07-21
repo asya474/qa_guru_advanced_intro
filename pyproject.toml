@@ -22,7 +22,7 @@ pydantic-settings = "^2.0.2"
 curlify = "^2.2.1"
 urllib3 = "^2.1.0"
 webdriver-manager = "^4.0.1"
-
+fastapi = "^0.111.1"
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.0.2"
 
