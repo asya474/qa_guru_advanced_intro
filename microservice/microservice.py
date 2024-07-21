@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from datetime import datetime
 import random
-from models.get_single_user import GetUserResponse
+from models.get_single_user import UserResponse as GetUserResponse, UserData as GetUserData, SupportData as GetSupportData
 from models.post_create import User, UserResponse
 from models.put_update import UserUpdateRequest, UserUpdateResponse
 
@@ -9,17 +9,17 @@ app = FastAPI()
 
 
 @app.get("/api/users/{user_id}", response_model=UserResponse, status_code=200)
-def get_user(user_id: int):
+def get_single_user(user_id: int):
     # Здесь вы должны вернуть реального пользователя, например:
     return GetUserResponse(
-        data=models.get_single_user.UserData(
+        data=GetUserData(
             id=user_id,
             email=f"user{user_id}@example.com",
             first_name=f"User{user_id}",
             last_name="Example",
             avatar=f"https://reqres.in/img/faces/{user_id}-image.jpg",
         ),
-        support=models.get_single_user.SupportData(
+        support=GetSupportData(
             url="https://reqres.in/#support-heading",
             text="To keep ReqRes free, contributions towards server costs are appreciated!",
         ),
@@ -27,7 +27,8 @@ def get_user(user_id: int):
 
 
 @app.post("/api/users", response_model=UserResponse, status_code=201)
-def create_user(user: User):
+def post_create_user(user: User):
+    user=User(name=user.name, job=user.job)
     return UserResponse(
         name=user.name,
         job=user.job,
@@ -37,9 +38,13 @@ def create_user(user: User):
 
 
 @app.put("/api/users/{user_id}", response_model=UserUpdateResponse, status_code=200)
-def update_user(user_id: int, user_update: UserUpdateRequest):
+def put_update_user(user_id: int, user_update: UserUpdateRequest):
+    user_update = UserUpdateRequest(name=user_update.name, job=user_update.job)
     updated_at = datetime.datetime.now(datetime.UTC).isoformat() + "Z"
-    return UserUpdateResponse(name=user_update.name, job=user_update.job, updatedAt=updated_at)
+    return UserUpdateResponse(
+        name=f"User{user_id}",
+        job="Job{user_id}",
+        updatedAt=updated_at
 
 
 if __name__ == "__main__":

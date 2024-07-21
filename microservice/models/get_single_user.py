@@ -13,6 +13,6 @@ class UserData(BaseModel):
     avatar: str
     text: str
 @dataclasses.dataclass
-class GetUserResponse(BaseModel):
+class UserResponse(BaseModel):
     data: UserData
     support: SupportData
