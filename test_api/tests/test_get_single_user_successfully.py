@@ -6,10 +6,7 @@ from test_api.helper.utils import load_schema
 
 
 def test_get_single_user_successfully(api_browser):
-    url = "https://reqres.in/api/users/2"
     schema = load_schema("get_single_user.json")
-
     result: Response = requests.get(url)
-
     assert result.status_code == 200
     jsonschema.validate(result.json(), schema)

@@ -1,9 +1,6 @@
 import os
-import allure
-import allure_commons
 import pytest
 from dotenv import load_dotenv
-from selene import support
 from selene.support.shared import browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -15,11 +12,6 @@ from test_api.helper.get_env_path import get_personal_env_path
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--context",
-        default="bstack",
-        help="Specify the test context"
-    )
-    parser.addoption(
         '--browser',
         help='Browser for test',
         choices=['firefox', 'chrome'],
@@ -28,8 +20,8 @@ def pytest_addoption(parser):
     parser.addoption(
         '--browser_version',
         help='Version of browser',
-        choices=['100.0', '99.0',  '98.0', '97.0'],
-        default='100.0'
+        choices=['126.0', '125.0'],
+        default='126.0'
     )
 
 
@@ -48,50 +40,11 @@ def context(request):
     return request.config.getoption("--context")
 
 @pytest.fixture()
-def web_browser(request):
-    browser_name = request.config.getoption('--browser')
-    browser_version = request.config.getoption('--browser_version')
-    options = Options()
-
-    selenoid_capabilities = {
-        "browserName": browser_name,
-        "browserVersion": browser_version,
-        "selenoid:options": {
-            "enableVNC": True,
-            "enableVideo": True
-        }
-    }
-    options.capabilities.update(selenoid_capabilities)
-
-    load_dotenv(get_personal_env_path())
-    login = os.getenv('SELENOID_LOGIN')
-    password = os.getenv('SELENOID_PASSWORD')
-
-    driver = webdriver.Remote(f'https://{login}:{password}@selenoid.autotests.cloud/wd/hub',
-                                             options=options)
-
-    browser.config.base_url = "https://demoqa.com"
-    browser.config.driver = driver
-    browser.config.timeout = 100.0
-    browser.config.window_width = 1024
-    browser.config.window_height = 1366
-
-    yield browser
-
-    attach_helpers.add_screenshot(browser)
-    attach_helpers.add_logs(browser)
-    attach_helpers.add_html(browser)
-    attach_helpers.add_video(browser)
-
-    browser.quit()
-
-
-@pytest.fixture()
 def api_browser():
     options = Options()
     selenoid_capabilities = {
         "browserName": "chrome",
-        "browserVersion": "100.0",
+        "browserVersion": "126.0",
         "selenoid:options": {
             "enableVNC": True,
             "enableVideo": True

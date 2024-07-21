@@ -10,24 +10,13 @@ app = FastAPI()
 
 
 @app.delete("/users/{user_id}")
-async def delete_user(user_id: int):
+def delete_user(user_id: int):
     return {"message": "User deleted successfully"}
 
 
-@app.get("/api/users/2", response_model=UserResponse)
+@app.get("/api/users/{user_id}}", response_model=UserResponse)
 def get_user():
-    user_data = UserData(
-        id=2,
-        email="janet.weaver@reqres.in",
-        first_name="Janet",
-        last_name="Weaver",
-        avatar="https://reqres.in/img/faces/2-image.jpg"
-    )
-    support_data = SupportData(
-        url="https://reqres.in/#support-heading",
-        text="To keep ReqRes free, contributions towards server costs are appreciated!"
-    )
-    return UserResponse(data=user_data, support=support_data)
+    return UserResponse
 
 
 @app.post("/users", response_model=UserResponse)
