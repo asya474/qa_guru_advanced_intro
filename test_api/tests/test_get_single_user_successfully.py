@@ -7,6 +7,6 @@ from test_api.helper.utils import load_schema
 
 def test_get_single_user_successfully(api_browser):
     schema = load_schema("get_single_user.json")
-    result: Response = requests.get(url)
+    result: Response = requests.get("0.0.0.0", port=8000)
     assert result.status_code == 200
     jsonschema.validate(result.json(), schema)
