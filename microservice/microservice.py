@@ -8,7 +8,7 @@ from models.put_update import UserUpdateRequest, UserUpdateResponse
 app = FastAPI()
 
 
-@app.get("/api/users/{user_id}", response_model=UserResponse, status_code=200)
+@app.get("/api/users/{user_id}", response_model=GetUserResponse, status_code=200)
 def get_single_user(user_id: int):
     # Здесь вы должны вернуть реального пользователя, например:
     return GetUserResponse(
@@ -18,10 +18,10 @@ def get_single_user(user_id: int):
             first_name=f"User{user_id}",
             last_name="Example",
             avatar=f"https://reqres.in/img/faces/{user_id}-image.jpg",
+            text="To keep ReqRes free, contributions towards server costs are appreciated!",
         ),
         support=GetSupportData(
             url="https://reqres.in/#support-heading",
-            text="To keep ReqRes free, contributions towards server costs are appreciated!",
         ),
     )
 
@@ -34,7 +34,7 @@ def post_create_user(user: User):
         name=user.name,
         job=user.job,
         id=user_id,
-        createdAt=datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
+        createdAt=datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
     )
 
 
@@ -42,7 +42,7 @@ def post_create_user(user: User):
 def put_update_user(user_id: int, user_update: UserUpdateRequest):
     user_id = str(random.randint(100, 999))
     user_update = UserUpdateRequest(name="User"+user_id, job="Job"+user_id)
-    updated_at = datetime.datetime.now(datetime.UTC).isoformat() + "Z"
+    updated_at = datetime.now().isoformat() + "Z"
     return UserUpdateResponse(
         name=user_update.name,
         job=user_update.job,
